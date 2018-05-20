@@ -1,0 +1,20 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel PanelColor
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWTexture2D<float4> Result;
+float Time;
+
+[numthreads(8, 8, 1)]
+void PanelColor (uint3 dispatchThreadID : SV_DispatchThreadID)
+{
+	float width, height;
+    Result.GetDimensions(width, height);
+
+    Time = Time / 10;
+	Result[dispatchThreadID.xy] = float4(abs(sin(Time + (dispatchThreadID.x / width))),
+										 abs(sin(Time + (dispatchThreadID.x / width)) + .33),
+										 abs(sin(Time + (dispatchThreadID.x / width)) + .66),
+										 1.);
+}

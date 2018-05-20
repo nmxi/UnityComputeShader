@@ -1,0 +1,14 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSFunction_test
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWStructuredBuffer<int> intBuffer;
+int intValue;	//受け取り用
+
+[numthreads(6, 1, 1)]
+void CSFunction_test (uint3 groupID : SV_GroupID,
+					  uint3 groupThreadID : SV_GroupThreadID)
+{
+	intBuffer[groupThreadID.x] = groupThreadID.x * intValue;
+}
